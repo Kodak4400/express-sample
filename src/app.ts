@@ -1,11 +1,18 @@
 import express from 'express'
+import cookieParser from 'cookie-parser'
+// import logger from 'log4js'
 import router from './routes'
+import { errorResponse } from './services/ErrorResponse'
 
 const app = express()
-const port = 3000
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser())
 
 app.use(router)
 
-app.listen(port, () => {
-  console.log(`Node js is listening to PORT: ${port}`)
-})
+// Error-Handler middleware
+app.use(errorResponse)
+
+export default app
